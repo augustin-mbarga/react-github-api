@@ -3,7 +3,7 @@ import './header.scss';
 
 export default function Header() {
     return(
-        <div className="header">
+        <div className="app-header">
             <img src="" alt="Github logo" />
         </div>
     );
