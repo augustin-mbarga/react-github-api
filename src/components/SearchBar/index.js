@@ -7,10 +7,9 @@ export default function SearchBar() {
         <div className="searchbar">
             <Segment>
                 <Form>
-                    <Form.Input fluid placeholder='First name' />
+                    <Form.Input fluid placeholder='Searchbar' />
                 </Form>
             </Segment>
-            Searchbar
         </div>
     );
 }
