@@ -4,12 +4,14 @@ import './repos.scss';
 
 export default function Repos() {
     return (
-        <div className='repos'>
-            <Repo />
-            <Repo />
-            <Repo />
-            <Repo />
-            <Repo />
+        <div className="repos">
+            <ul className="repos__list">
+                <Repo />
+                <Repo />
+                <Repo />
+                <Repo />
+                <Repo />
+            </ul>
         </div>
     );
 }
