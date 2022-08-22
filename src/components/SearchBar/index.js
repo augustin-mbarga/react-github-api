@@ -7,7 +7,11 @@ export default function SearchBar() {
         <div className="searchbar">
             <Segment>
                 <Form>
-                    <Form.Input fluid placeholder='Searchbar' />
+                    <Form.Input 
+                        icon="search"
+                        iconPosition="left"
+                        placeholder="Saisissez votre recherche"
+                    />
                 </Form>
             </Segment>
         </div>
