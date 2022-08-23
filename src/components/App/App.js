@@ -9,7 +9,7 @@ export default function App() {
     <div className="app">
       <Header />
       <SearchBar />
-      <Message />
+      <Message content="La recherche a donné 1159901 résultats." />
       <Repos />
     </div>
   );
