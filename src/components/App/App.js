@@ -6,13 +6,12 @@ import './App.scss';
 import resultsData from '../../data/repos';
 
 export default function App() {
-  console.log("Data : ", resultsData.total_count);
   return (
     <div className="app">
       <Header />
       <SearchBar />
       <Message counter={resultsData.total_count} />
-      <Repos results={resultsData} />
+      <Repos results={resultsData.items} />
     </div>
   );
 }
