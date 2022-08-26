@@ -12,7 +12,7 @@ export default function App() {
       <Header />
       <SearchBar />
       <Message counter={resultsData.total_count} />
-      <Repos results={dataFiltered(resultsData)} />
+      <Repos results={dataFiltered(resultsData.items)} />
     </div>
   );
 }

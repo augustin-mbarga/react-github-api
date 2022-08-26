@@ -1,4 +1,4 @@
-export const resultsDataFiltered = (dataArray) => dataArray.items.map((item) => (
+export const resultsDataFiltered = (dataArray) => dataArray.map((item) => (
     {
         id: item.id,
         imageUrl: item.owner.avatar_url,
