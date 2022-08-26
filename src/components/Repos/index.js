@@ -1,6 +1,7 @@
 // == IMPORTS ==
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
+
 import Repo from '../Repos/Repo';
 import './repos.scss';
 

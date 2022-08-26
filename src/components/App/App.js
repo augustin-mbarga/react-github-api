@@ -11,14 +11,14 @@ import resultsData from '../../data/repos';
 import './App.scss';
 
 export default function App() {
-  const [count, setCount] = useState(resultsData.total_count);
   const [results, setResults] = useState(resultsData.items);
+  const [total, setTotal] = useState(resultsData.total_count);
 
   return (
     <div className="app">
       <Header />
       <SearchBar />
-      <Message counter={count} />
+      <Message counter={total} />
       <Repos results={cleanRepos(results)} />
     </div>
   );
