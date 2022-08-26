@@ -7,10 +7,8 @@ import './repos.scss';
 export default function Repos({results}) {
     const resultsJsx = results.map((result) => 
         <Repo 
-            imageUrl={result.owner.avatar_url}
-            title={result.full_name}
-            owner={result.owner.login}
-            description={result.description}
+            key={result.id}
+            {...result}
         />
     );
     return (
@@ -25,10 +23,5 @@ export default function Repos({results}) {
     );
 }
 Repos.propTypes = {
-    results: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        full_name: PropTypes.string.isRequired,
-        owner: PropTypes.object.isRequired,
-        description: PropTypes.string.isRequired,
-    })).isRequired,
+    results: PropTypes.arrayOf(Object).isRequired,
 }

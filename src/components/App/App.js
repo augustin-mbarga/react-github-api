@@ -4,6 +4,7 @@ import Message from '../Message';
 import Repos from '../Repos';
 import './App.scss';
 import resultsData from '../../data/repos';
+import { resultsDataFiltered as dataFiltered } from '../../selectors/data';
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
       <Header />
       <SearchBar />
       <Message counter={resultsData.total_count} />
-      <Repos results={resultsData.items} />
+      <Repos results={dataFiltered(resultsData)} />
     </div>
   );
 }
