@@ -1,18 +1,30 @@
+// == Import
+import { useState } from 'react';
+import { resultsDataFiltered as cleanRepos } from '../../selectors/data';
+
 import Header from '../Header';
 import SearchBar from '../SearchBar';
 import Message from '../Message';
 import Repos from '../Repos';
-import './App.scss';
+
 import resultsData from '../../data/repos';
-import { resultsDataFiltered as dataFiltered } from '../../selectors/data';
+import './App.scss';
 
 export default function App() {
+  const [results, setResults] = useState(resultsData.items);
+  const [total, setTotal] = useState(resultsData.total_count);
+  const [input, setInput] = useState('');
+
+  function inputChange(value){
+
+  };
+
   return (
     <div className="app">
       <Header />
-      <SearchBar />
-      <Message counter={resultsData.total_count} />
-      <Repos results={dataFiltered(resultsData.items)} />
+      <SearchBar onChange={inputChange} />
+      <Message counter={total} />
+      <Repos results={cleanRepos(results)} />
     </div>
   );
 }

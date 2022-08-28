@@ -1,6 +1,7 @@
 // == IMPORTS ==
 import PropTypes from 'prop-types';
 import { Card, Image } from 'semantic-ui-react';
+
 import './repo.scss';
 
 export default function Repo({
