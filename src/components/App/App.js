@@ -13,11 +13,16 @@ import './App.scss';
 export default function App() {
   const [results, setResults] = useState(resultsData.items);
   const [total, setTotal] = useState(resultsData.total_count);
+  const [input, setInput] = useState('');
+
+  function inputChange(value){
+
+  };
 
   return (
     <div className="app">
       <Header />
-      <SearchBar />
+      <SearchBar onChange={inputChange} />
       <Message counter={total} />
       <Repos results={cleanRepos(results)} />
     </div>
