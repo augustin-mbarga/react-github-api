@@ -19,7 +19,7 @@ export default function App() {
   //   setInput(inputValue);
   // }
 
-  function handleSubmit(research) {
+  function loadData(research) {
     setInput(research);
     const researchResults = cleanRepos(resultsData.items).filter(({ title }) =>
       title.includes(input)
@@ -36,7 +36,7 @@ export default function App() {
       <SearchBar
         inputValue={input}
         onChangeInputValue={(e, data) => setInput(data.value)}
-        onSubmit={handleSubmit}
+        onFormSubmit={loadData}
       />
       <Message counter={total} />
       <Repos results={results} />

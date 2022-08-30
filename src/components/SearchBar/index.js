@@ -7,19 +7,19 @@ import "./searchBar.scss";
 export default function SearchBar({
   inputValue,
   onChangeInputValue,
-  onSubmit,
+  onFormSubmit,
 }) {
   //   const handleChange = (e) => {
   //     onChange(e.target.value);
   //   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(e.target.value);
-  };
+  //   const handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     onFormSubmit(e.target.value);
+  //   };
   return (
     <div className="searchbar">
       <Segment>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={onFormSubmit}>
           <Form.Input
             icon="search"
             iconPosition="left"
@@ -36,5 +36,5 @@ export default function SearchBar({
 SearchBar.propTypes = {
   inputValue: PropTypes.string.isRequired,
   onChangeInputValue: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onFormSubmit: PropTypes.func.isRequired,
 };
