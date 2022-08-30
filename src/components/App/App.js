@@ -1,28 +1,28 @@
 // == Import
-import { useState } from 'react';
-import { resultsDataFiltered as cleanRepos } from '../../selectors/data';
+import { useState } from "react";
+import { resultsDataFiltered as cleanRepos } from "../../selectors/data";
 
-import Header from '../Header';
-import SearchBar from '../SearchBar';
-import Message from '../Message';
-import Repos from '../Repos';
+import Header from "../Header";
+import SearchBar from "../SearchBar";
+import Message from "../Message";
+import Repos from "../Repos";
 
-import resultsData from '../../data/repos';
-import './App.scss';
+import resultsData from "../../data/repos";
+import "./App.scss";
 
 export default function App() {
   const [results, setResults] = useState(resultsData.items);
   const [total, setTotal] = useState(resultsData.total_count);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
-  function inputChange(value){
-
-  };
+  function handleChange(inputValue) {
+    setInput(inputValue);
+  }
 
   return (
     <div className="app">
       <Header />
-      <SearchBar onChange={inputChange} />
+      <SearchBar inputValue={input} onChange={handleChange} />
       <Message counter={total} />
       <Repos results={cleanRepos(results)} />
     </div>
