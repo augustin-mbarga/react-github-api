@@ -9,13 +9,6 @@ export default function SearchBar({
   onChangeInputValue,
   onFormSubmit,
 }) {
-  //   const handleChange = (e) => {
-  //     onChange(e.target.value);
-  //   };
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     onFormSubmit(e.target.value);
-  //   };
   return (
     <div className="searchbar">
       <Segment>

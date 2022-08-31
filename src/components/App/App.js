@@ -19,6 +19,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   async function loadData() {
+    setLoading(true);
     // using from the 2nd research of the user
     if (tag) {
       setTag(false);
@@ -27,7 +28,6 @@ export default function App() {
     }
     // Github API call with axios
     try {
-      setLoading(true);
       if (input === "") {
         setLoading(false);
         return alert("Saisissez votre recherche");
@@ -40,27 +40,32 @@ export default function App() {
       setResults(cleanRepos(response.data.items));
       setTotal(response.data.total_count);
       setTag(true);
-      setInput("");
-      setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setInput("");
+      setLoading(false);
     }
   }
+
+  const loaderJsx = (
+    <>
+      {loading && <Loader />}
+      {loading || (tag && <Message counter={total} />)}
+      {loading || <Repos results={results} />}
+    </>
+  );
 
   // Page display
   return (
     <div className="app">
       <Header />
-      {loading || (
-        <SearchBar
-          inputValue={input}
-          onChangeInputValue={(e, data) => setInput(data.value)}
-          onFormSubmit={loadData}
-        />
-      )}
-      {loading && <Loader />}
-      {loading || (tag && <Message counter={total} />)}
-      {loading || <Repos results={results} />}
+      <SearchBar
+        inputValue={input}
+        onChangeInputValue={(e, data) => setInput(data.value)}
+        onFormSubmit={loadData}
+      />
+      {loaderJsx}
     </div>
   );
 }
