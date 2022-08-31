@@ -1,0 +1,5 @@
+@use "../../styles/vars" as v;
+
+.gutter-invisible {
+    margin-top: v.$gutter;
+}
