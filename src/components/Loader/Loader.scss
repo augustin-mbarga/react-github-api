@@ -1,3 +1,5 @@
+@use '../../styles/vars' as v;
+
 .gutter {
-    height: 32px;
+    margin-top: v.$gutter;
 }
