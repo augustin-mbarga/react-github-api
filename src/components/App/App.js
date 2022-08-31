@@ -7,6 +7,7 @@ import Header from "../Header";
 import SearchBar from "../SearchBar";
 import Message from "../Message";
 import Repos from "../Repos";
+import Loader from "../Loader";
 
 import "./App.scss";
 
@@ -15,6 +16,7 @@ export default function App() {
   const [total, setTotal] = useState(0);
   const [input, setInput] = useState("");
   const [tag, setTag] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function loadData() {
     // using from the 2nd research of the user
@@ -25,7 +27,11 @@ export default function App() {
     }
     // Github API call with axios
     try {
-      if (input === "") return alert("Saisissez votre recherche");
+      setLoading(true);
+      if (input === "") {
+        setLoading(false);
+        return alert("Saisissez votre recherche");
+      }
 
       const response = await axios.get(
         `https://api.github.com/search/repositories?q=${input}`
@@ -35,6 +41,7 @@ export default function App() {
       setTotal(response.data.total_count);
       setTag(true);
       setInput("");
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -44,13 +51,16 @@ export default function App() {
   return (
     <div className="app">
       <Header />
-      <SearchBar
-        inputValue={input}
-        onChangeInputValue={(e, data) => setInput(data.value)}
-        onFormSubmit={loadData}
-      />
-      {tag && <Message counter={total} />}
-      <Repos results={results} />
+      {loading || (
+        <SearchBar
+          inputValue={input}
+          onChangeInputValue={(e, data) => setInput(data.value)}
+          onFormSubmit={loadData}
+        />
+      )}
+      {loading && <Loader />}
+      {loading || (tag && <Message counter={total} />)}
+      {loading || <Repos results={results} />}
     </div>
   );
 }
