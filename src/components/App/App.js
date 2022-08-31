@@ -1,33 +1,41 @@
 // == Import
 import { useState } from "react";
 import { resultsDataFiltered as cleanRepos } from "../../selectors/data";
+import axios from "axios";
 
 import Header from "../Header";
 import SearchBar from "../SearchBar";
 import Message from "../Message";
 import Repos from "../Repos";
 
-import resultsData from "../../data/repos";
 import "./App.scss";
 
 export default function App() {
-  const [results, setResults] = useState(cleanRepos(resultsData.items));
-  const [total, setTotal] = useState(resultsData.total_count);
+  const [results, setResults] = useState([]);
+  const [total, setTotal] = useState(0);
   const [input, setInput] = useState("");
+  const [tag, setTag] = useState(false);
 
-  // function handleChange(inputValue) {
-  //   setInput(inputValue);
-  // }
+  async function loadData() {
+    if (tag) {
+      setTag(false);
+      setResults([]);
+      setTotal(0);
+    }
+    try {
+      if (input === "") return alert("Saisissez votre recherche");
 
-  function loadData(research) {
-    setInput(research);
-    const researchResults = cleanRepos(resultsData.items).filter(({ title }) =>
-      title.includes(input)
-    );
-    setResults(researchResults);
-    setTotal(researchResults.length);
-    // Reset
-    setInput("");
+      const response = await axios.get(
+        `https://api.github.com/search/repositories?q=${input}`
+      );
+
+      setResults(cleanRepos(response.data.items));
+      setTotal(response.data.total_count);
+      setTag(true);
+      setInput("");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -38,7 +46,7 @@ export default function App() {
         onChangeInputValue={(e, data) => setInput(data.value)}
         onFormSubmit={loadData}
       />
-      <Message counter={total} />
+      {tag && <Message counter={total} />}
       <Repos results={results} />
     </div>
   );
