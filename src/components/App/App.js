@@ -17,11 +17,13 @@ export default function App() {
   const [tag, setTag] = useState(false);
 
   async function loadData() {
+    // using from the 2nd research of the user
     if (tag) {
       setTag(false);
       setResults([]);
       setTotal(0);
     }
+    // Github API call with axios
     try {
       if (input === "") return alert("Saisissez votre recherche");
 
@@ -38,6 +40,7 @@ export default function App() {
     }
   }
 
+  // Page display
   return (
     <div className="app">
       <Header />
