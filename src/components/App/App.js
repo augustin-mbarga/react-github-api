@@ -8,6 +8,7 @@ import SearchBar from "../SearchBar";
 import Message from "../Message";
 import Repos from "../Repos";
 import Loader from "../Loader";
+import Faq from "../FAQ";
 
 import "./App.scss";
 
@@ -66,6 +67,7 @@ export default function App() {
         onFormSubmit={loadData}
       />
       {loaderJsx}
+      <Faq />
     </div>
   );
 }
