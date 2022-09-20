@@ -1,5 +1,6 @@
 // == Import
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import { resultsDataFiltered as cleanRepos } from "../../selectors/data";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ import Message from "../Message";
 import Repos from "../Repos";
 import Loader from "../Loader";
 import Faq from "../FAQ";
+import Menu from "../Menu";
 
 import "./App.scss";
 
@@ -61,6 +63,7 @@ export default function App() {
   return (
     <div className="app">
       <Header />
+      <Menu />
       <SearchBar
         inputValue={input}
         onChangeInputValue={(e, data) => setInput(data.value)}
