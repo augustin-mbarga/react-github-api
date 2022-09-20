@@ -11,6 +11,7 @@ import Repos from "../Repos";
 import Loader from "../Loader";
 import Faq from "../FAQ";
 import Menu from "../Menu";
+import NotFound from "../NotFound";
 
 import "./App.scss";
 
@@ -64,13 +65,23 @@ export default function App() {
     <div className="app">
       <Header />
       <Menu />
-      <SearchBar
-        inputValue={input}
-        onChangeInputValue={(e, data) => setInput(data.value)}
-        onFormSubmit={loadData}
-      />
-      {loaderJsx}
-      <Faq />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <SearchBar
+                inputValue={input}
+                onChangeInputValue={(e, data) => setInput(data.value)}
+                onFormSubmit={loadData}
+              />
+              {loaderJsx}
+            </>
+          }
+        ></Route>
+        <Route path="/faq" element={<Faq />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
+      </Routes>
     </div>
   );
 }
