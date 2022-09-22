@@ -1,5 +1,6 @@
 // == Import
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import { resultsDataFiltered as cleanRepos } from "../../selectors/data";
 import axios from "axios";
 
@@ -8,6 +9,9 @@ import SearchBar from "../SearchBar";
 import Message from "../Message";
 import Repos from "../Repos";
 import Loader from "../Loader";
+import Faq from "../FAQ";
+import Menu from "../Menu";
+import NotFound from "../NotFound";
 
 import "./App.scss";
 
@@ -17,6 +21,7 @@ export default function App() {
   const [input, setInput] = useState("");
   const [tag, setTag] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   async function loadData() {
     setLoading(true);
@@ -30,11 +35,11 @@ export default function App() {
     try {
       if (input === "") {
         setLoading(false);
-        return alert("Saisissez votre recherche");
+        return;
       }
 
       const response = await axios.get(
-        `https://api.github.com/search/repositories?q=${input}`
+        `https://api.github.com/search/repositories?q=${query}`
       );
 
       setResults(cleanRepos(response.data.items));
@@ -56,16 +61,35 @@ export default function App() {
     </>
   );
 
+  useEffect(() => {
+    if (query) {
+      loadData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
+
   // Page display
   return (
     <div className="app">
       <Header />
-      <SearchBar
-        inputValue={input}
-        onChangeInputValue={(e, data) => setInput(data.value)}
-        onFormSubmit={loadData}
-      />
-      {loaderJsx}
+      <Menu />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <SearchBar
+                inputValue={input}
+                onChangeInputValue={(e, data) => setInput(data.value)}
+                onFormSubmit={() => setQuery(input)}
+              />
+              {loaderJsx}
+            </>
+          }
+        ></Route>
+        <Route path="/faq" element={<Faq />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
+      </Routes>
     </div>
   );
 }
