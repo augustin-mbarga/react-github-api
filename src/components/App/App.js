@@ -22,6 +22,7 @@ export default function App() {
   const [tag, setTag] = useState(false);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [isInputOk, setIsInputOk] = useState(true);
 
   async function loadData() {
     setLoading(true);
@@ -33,7 +34,9 @@ export default function App() {
     }
     // Github API call with axios
     try {
-      if (input === "") {
+      // The input of user must have at least 3 characters
+      if (input.length < 3) {
+        setIsInputOk(false);
         setLoading(false);
         return;
       }
@@ -45,6 +48,7 @@ export default function App() {
       setResults(cleanRepos(response.data.items));
       setTotal(response.data.total_count);
       setTag(true);
+      setIsInputOk(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -82,6 +86,7 @@ export default function App() {
                 inputValue={input}
                 onChangeInputValue={(e, data) => setInput(data.value)}
                 onFormSubmit={() => setQuery(input)}
+                isInputOk={isInputOk}
               />
               {loaderJsx}
             </>

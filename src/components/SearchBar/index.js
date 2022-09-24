@@ -8,6 +8,7 @@ export default function SearchBar({
   inputValue,
   onChangeInputValue,
   onFormSubmit,
+  isInputOk,
 }) {
   return (
     <div className="searchbar">
@@ -19,6 +20,11 @@ export default function SearchBar({
             placeholder="Saisissez votre recherche"
             value={inputValue}
             onChange={onChangeInputValue}
+            error={
+              !isInputOk && {
+                content: "Votre recherche doit contenir au moins 3 caractères.",
+              }
+            }
           />
         </Form>
       </Segment>
@@ -30,4 +36,5 @@ SearchBar.propTypes = {
   inputValue: PropTypes.string.isRequired,
   onChangeInputValue: PropTypes.func.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
+  isInputOk: PropTypes.bool.isRequired,
 };
