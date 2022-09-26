@@ -1,8 +1,8 @@
 // == Import
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { resultsDataFiltered as cleanRepos } from "../../selectors/data";
-import axios from "axios";
 
 import Header from "../Header";
 import SearchBar from "../SearchBar";
@@ -12,6 +12,7 @@ import Loader from "../Loader";
 import Faq from "../FAQ";
 import Menu from "../Menu";
 import NotFound from "../NotFound";
+import LoadMore from "../LoadMore";
 
 import "./App.scss";
 
@@ -19,45 +20,36 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [total, setTotal] = useState(0);
   const [input, setInput] = useState("");
-  const [tag, setTag] = useState(false);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const nbResultsDisplayedPerPage = 9;
 
-  async function loadData() {
+  const loadData = async () => {
+    // loading status
     setLoading(true);
-    // using from the 2nd research of the user
-    if (tag) {
-      setTag(false);
-      setResults([]);
-      setTotal(0);
-    }
-    // Github API call with axios
-    try {
-      if (input === "") {
-        setLoading(false);
-        return;
-      }
 
+    try {
+      // Github API call with axios
       const response = await axios.get(
-        `https://api.github.com/search/repositories?q=${query}`
+        `https://api.github.com/search/repositories?q=${query}&sort=stars&order=desc&page=${page}&per_page=${nbResultsDisplayedPerPage}`
       );
 
-      setResults(cleanRepos(response.data.items));
+      let compiledResults = [...results, ...response.data.items];
+      setResults(compiledResults);
       setTotal(response.data.total_count);
-      setTag(true);
     } catch (error) {
       console.error(error);
     } finally {
-      setInput("");
       setLoading(false);
     }
-  }
+  };
 
   const loaderJsx = (
     <>
+      {total > 0 && <Message counter={total} />}
+      {<Repos results={cleanRepos(results)} />}
       {loading && <Loader />}
-      {loading || (tag && <Message counter={total} />)}
-      {loading || <Repos results={results} />}
     </>
   );
 
@@ -66,7 +58,19 @@ export default function App() {
       loadData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [query, page]);
+
+  const handleSubmit = () => {
+    // new request => infos reset
+    setPage(1);
+    setTotal(0);
+    setResults([]);
+    setQuery(input);
+  };
+
+  // preparation of LoadMore display conditions
+  const hasRepos = total - results.length > 0;
+  const isLoadMoreVisible = !loading && hasRepos;
 
   // Page display
   return (
@@ -81,9 +85,18 @@ export default function App() {
               <SearchBar
                 inputValue={input}
                 onChangeInputValue={(e, data) => setInput(data.value)}
-                onFormSubmit={() => setQuery(input)}
+                onFormSubmit={handleSubmit}
+                noEmpty
+                minCharacter={3}
               />
               {loaderJsx}
+              {isLoadMoreVisible && (
+                <LoadMore
+                  onBtnClick={() => {
+                    setPage(page + 1);
+                  }}
+                />
+              )}
             </>
           }
         ></Route>
